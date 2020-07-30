@@ -334,6 +334,26 @@ impl Graph {
         }
         costs
     }
+
+    fn warshall_floyd(&self) -> Vec<Vec<isize>> {
+        let mut costs = vec![vec![std::isize::MAX; self.nodes]; self.nodes];
+        for i in 0..self.nodes {
+            costs[i][i] = 0;
+        }
+        for (node_from, edges) in self.edges.iter().enumerate() {
+            for GraphEdge {node_to, cost} in edges.iter() {
+                costs[node_from][*node_to] = *cost;
+            }
+        }
+        for k in 0..self.nodes {
+            for i in 0..self.nodes {
+                for j in 0..self.nodes {
+                    costs[i][j] = std::cmp::min(costs[i][j], costs[i][k].saturating_add(costs[k][j]));
+                }
+            }
+        }
+        costs
+    }
 }
 
 #[test]
@@ -398,4 +418,21 @@ fn graph() {
     graph.edge_undirected_costed(3, 6, 6);
     graph.edge_undirected_costed(5, 6, 5);
     assert_eq!(vec![0, 6, 19, 9, 12, 12, 15, 2], graph.dijkstra(0));
+    let mut graph = Graph::new(6);
+    graph.edge_undirected_costed(0, 1, 5);
+    graph.edge_undirected_costed(0, 4, 15);
+    graph.edge_undirected_costed(1, 2, 1);
+    graph.edge_undirected_costed(2, 3, 2);
+    graph.edge_undirected_costed(2, 4, 9);
+    graph.edge_undirected_costed(3, 4, 6);
+    let inf = std::isize::MAX;
+    let expected = vec![
+        vec![0, 5, 6, 8, 14, inf],
+        vec![5, 0, 1, 3, 9, inf],
+        vec![6, 1, 0, 2, 8, inf],
+        vec![8, 3, 2, 0, 6, inf],
+        vec![14, 9, 8, 6, 0, inf],
+        vec![inf, inf, inf, inf, inf, 0],
+    ];
+    assert_eq!(expected, graph.warshall_floyd());
 }

@@ -1,4 +1,5 @@
 mod bits;
+mod bound;
 mod produce;
 mod geometric;
 mod modint;
@@ -50,6 +51,17 @@ fn test_produce() {
     }, false);
     let actual: Vec<usize> = producer.collect();
     assert_eq!(vec![2, 4, 8, 16, 32, 64], actual);
+}
+
+#[test]
+fn test_bound() {
+    use bound::bound;
+    assert_eq!(bound(0, 101, |x| x <= 10), 10);
+    assert_eq!(bound(0, 101, |x| x <= 100), 100);
+    assert_eq!(bound(0, 101, |x| x <= 200), 100);
+    assert_eq!(bound(100, -1, |x| x >= 20), 20);
+    assert_eq!(bound(100, -1, |x| x >= 0), 0);
+    assert_eq!(bound(100, -1, |x| x >= -1), 0);
 }
 
 #[test]

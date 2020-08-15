@@ -4,6 +4,11 @@ use cargo_snippet::snippet;
 pub const MOD: usize = 1000000007;
 
 #[snippet("modint")]
+pub fn mint(number: usize) -> ModInt {
+    ModInt(number % MOD)
+}
+
+#[snippet("modint")]
 #[derive(Copy, Clone, Eq, PartialEq, std::fmt::Debug)]
 pub struct ModInt(pub usize);
 

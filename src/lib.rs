@@ -19,6 +19,8 @@ fn test_modint() {
     assert_eq!(ModInt(184756), fact.ncr(20, 10));
     assert_eq!(ModInt(360360), fact.npr(15, 5));
     assert_eq!(ModInt(2002), fact.nhr(10, 5));
+    assert_eq!(ModInt(12345), mint(12345));
+    assert_eq!(ModInt(123), mint(MOD * 2 + 123));
     assert_eq!("12345", format!("{}", ModInt(12345)));
 }
 

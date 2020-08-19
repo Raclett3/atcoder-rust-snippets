@@ -137,6 +137,8 @@ impl ModIntFact {
             self.memo[n] = self.memo[n - 1] * ModInt(n);
             self.memo_inv[n] = self.memo[n].pow(MOD - 2);
         }
+
+        self.size = size;
     }
 
     pub fn fact(&mut self, n: usize) -> ModInt {

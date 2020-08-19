@@ -13,7 +13,7 @@ fn test_modint() {
     assert_eq!(ModInt(9), ModInt(MOD - 3) * ModInt(MOD - 3));
     assert_eq!(ModInt(898961331), ModInt(2).pow(50));
     assert_eq!(ModInt(12345), ModInt(12345) / ModInt(67890) * ModInt(67890));
-    let fact = ModIntFact::new(1024);
+    let mut fact = ModIntFact::new();
     assert_eq!(ModInt(227020758), fact.fact(13));
     assert_eq!(ModInt(1), fact.fact(127) * fact.fact_inv(127));
     assert_eq!(ModInt(184756), fact.ncr(20, 10));

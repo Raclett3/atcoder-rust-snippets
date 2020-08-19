@@ -112,38 +112,53 @@ impl ModInt {
 pub struct ModIntFact {
     memo: Vec<ModInt>,
     memo_inv: Vec<ModInt>,
+    size: usize,
 }
 
 #[snippet("modint")]
 impl ModIntFact {
-    pub fn new(size: usize) -> Self {
-        let mut memo = vec![ModInt(0); size + 1];
-        memo[0] = ModInt(1);
-        for n in 1..=size {
-            memo[n] = memo[n - 1] * ModInt(n);
+    pub fn new() -> Self {
+        Self {
+            memo: vec![ModInt(1)],
+            memo_inv: vec![ModInt(1)],
+            size: 0,
         }
-        let memo_inv = memo.iter().map(|x| x.pow(MOD - 2)).collect();
-        Self { memo, memo_inv }
     }
 
-    pub fn fact(&self, n: usize) -> ModInt {
+    pub fn extend(&mut self, size: usize) {
+        if self.size >= size {
+            return;
+        }
+
+        self.memo.resize(size + 1, ModInt(0));
+        self.memo_inv.resize(size + 1, ModInt(0));
+
+        for n in (self.size + 1)..=size {
+            self.memo[n] = self.memo[n - 1] * ModInt(n);
+            self.memo_inv[n] = self.memo[n].pow(MOD - 2);
+        }
+    }
+
+    pub fn fact(&mut self, n: usize) -> ModInt {
+        self.extend(n);
         self.memo[n]
     }
 
-    pub fn fact_inv(&self, n: usize) -> ModInt {
+    pub fn fact_inv(&mut self, n: usize) -> ModInt {
+        self.extend(n);
         self.memo_inv[n]
     }
 
-    pub fn ncr(&self, n: usize, r: usize) -> ModInt {
-        self.memo[n] * self.memo_inv[r] * self.memo_inv[n - r]
+    pub fn ncr(&mut self, n: usize, r: usize) -> ModInt {
+        self.fact(n) * self.fact_inv(r) * self.fact_inv(n - r)
     }
 
-    pub fn npr(&self, n: usize, r: usize) -> ModInt {
-        self.memo[n] * self.memo_inv[n - r]
+    pub fn npr(&mut self, n: usize, r: usize) -> ModInt {
+        self.fact(n) * self.fact_inv(n - r)
     }
 
-    pub fn nhr(&self, n: usize, r: usize) -> ModInt {
-        self.memo[n + r - 1] * self.memo_inv[r] * self.memo_inv[n - 1]
+    pub fn nhr(&mut self, n: usize, r: usize) -> ModInt {
+        self.fact(n + r - 1) * self.fact_inv(r) * self.fact_inv(n - 1)
     }
 }
 

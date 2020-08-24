@@ -3,6 +3,9 @@ use cargo_snippet::snippet;
 #[snippet("index")]
 pub trait SafeIndex<T> {
     fn at(&self, index: isize) -> Option<&T>;
+    fn at_d(&self, index: isize) -> &T {
+        self.at(index).unwrap()
+    }
 }
 
 #[snippet("index")]

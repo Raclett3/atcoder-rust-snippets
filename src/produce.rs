@@ -8,7 +8,11 @@ pub struct Produce<T: Copy, F: Fn(T) -> Option<T>> {
 }
 
 #[snippet("produce")]
-pub fn produce<T: Copy, F: Fn(T) -> Option<T>>(init: T, func: F, include_init: bool) -> Produce<T, F> {
+pub fn produce<T: Copy, F: Fn(T) -> Option<T>>(
+    init: T,
+    func: F,
+    include_init: bool,
+) -> Produce<T, F> {
     Produce {
         acc: Some(init),
         func,
@@ -23,11 +27,7 @@ impl<T: Copy, F: Fn(T) -> Option<T>> std::iter::Iterator for Produce<T, F> {
     fn next(&mut self) -> Option<Self::Item> {
         if let Some(acc) = self.acc {
             if let Some(next) = (self.func)(acc) {
-                let current = if self.include_init {
-                    acc
-                } else {
-                    next
-                };
+                let current = if self.include_init { acc } else { next };
                 self.acc = Some(next);
                 Some(current)
             } else {

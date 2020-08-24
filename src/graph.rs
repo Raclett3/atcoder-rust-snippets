@@ -90,14 +90,15 @@ impl Graph {
             costs[i][i] = 0;
         }
         for (node_from, edges) in self.edges.iter().enumerate() {
-            for GraphEdge {node_to, cost} in edges.iter() {
+            for GraphEdge { node_to, cost } in edges.iter() {
                 costs[node_from][*node_to] = *cost;
             }
         }
         for k in 0..self.nodes {
             for i in 0..self.nodes {
                 for j in 0..self.nodes {
-                    costs[i][j] = std::cmp::min(costs[i][j], costs[i][k].saturating_add(costs[k][j]));
+                    costs[i][j] =
+                        std::cmp::min(costs[i][j], costs[i][k].saturating_add(costs[k][j]));
                 }
             }
         }

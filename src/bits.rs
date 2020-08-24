@@ -26,4 +26,3 @@ macro_rules! n_bits_range {
         (0..(1 << $bits)).map(Bits)
     };
 }
-

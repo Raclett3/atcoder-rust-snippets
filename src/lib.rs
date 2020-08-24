@@ -114,7 +114,7 @@ fn graph() {
 
 #[test]
 fn test_safe_index() {
-    use safe_index::SafeIndex;
+    use safe_index::*;
 
     let mut v = vec![10, 20, 30, 40, 50];
     assert_eq!(v.at(0), Some(&10));

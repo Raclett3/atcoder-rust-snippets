@@ -4,6 +4,7 @@ mod produce;
 mod geometric;
 mod modint;
 mod graph;
+mod safe_index;
 
 #[test]
 fn test_modint() {
@@ -101,4 +102,19 @@ fn graph() {
         vec![inf, inf, inf, inf, inf, 0],
     ];
     assert_eq!(expected, graph.warshall_floyd());
+}
+
+#[test]
+fn test_safe_index() {
+    use safe_index::SafeIndex;
+
+    let mut v = vec![10, 20, 30, 40, 50];
+    assert_eq!(v.at(0), Some(&10));
+    assert_eq!(v.at(-2), None);
+    assert_eq!(v.at(5), None);
+    assert_eq!(v.at(4), Some(&50));
+    assert_eq!(v.at_mut(-1), None);
+    assert_eq!(v.at_mut(5), None);
+    *v.at_mut(2).unwrap() = 60;
+    assert_eq!(v.at(2), Some(&60));
 }

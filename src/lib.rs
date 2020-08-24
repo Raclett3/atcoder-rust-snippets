@@ -1,3 +1,6 @@
+#![allow(dead_code)]
+#![allow(unused_macros)]
+
 mod bits;
 mod bound;
 mod geometric;

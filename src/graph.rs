@@ -1,3 +1,5 @@
+#![allow(clippy::needless_range_loop)]
+
 use cargo_snippet::snippet;
 
 #[snippet("graph")]

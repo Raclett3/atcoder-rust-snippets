@@ -17,6 +17,18 @@ impl<T> SafeIndex<T> for Vec<T> {
     }
 }
 
+#[snippet("index")]
+impl<T> SafeIndex<T> for &[T] {
+    fn at(&self, index: isize) -> Option<&T> {
+        let length = self.len() as isize;
+        if 0 <= index && index < length {
+            Some(&self[index as usize])
+        } else {
+            None
+        }
+    }
+}
+
 #[snippet("indexmut")]
 pub trait SafeIndexMut<T> {
     fn at_mut(&mut self, index: isize) -> Option<&mut T>;
@@ -24,6 +36,18 @@ pub trait SafeIndexMut<T> {
 
 #[snippet("indexmut")]
 impl<T> SafeIndexMut<T> for Vec<T> {
+    fn at_mut(&mut self, index: isize) -> Option<&mut T> {
+        let length = self.len() as isize;
+        if 0 <= index && index < length {
+            Some(&mut self[index as usize])
+        } else {
+            None
+        }
+    }
+}
+
+#[snippet("indexmut")]
+impl<T> SafeIndexMut<T> for &mut [T] {
     fn at_mut(&mut self, index: isize) -> Option<&mut T> {
         let length = self.len() as isize;
         if 0 <= index && index < length {

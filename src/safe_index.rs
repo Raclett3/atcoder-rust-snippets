@@ -47,6 +47,9 @@ impl<T> SafeIndex<T> for &mut [T] {
 #[snippet("indexmut")]
 pub trait SafeIndexMut<T> {
     fn at_mut(&mut self, index: isize) -> Option<&mut T>;
+    fn at_mut_d(&mut self, index: isize) -> &mut T {
+        self.at_mut(index).unwrap()
+    }
 }
 
 #[snippet("indexmut")]

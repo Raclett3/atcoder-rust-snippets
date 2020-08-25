@@ -8,6 +8,7 @@ mod graph;
 mod modint;
 mod produce;
 mod safe_index;
+mod union_find;
 
 #[test]
 fn test_modint() {
@@ -128,4 +129,19 @@ fn test_safe_index() {
     assert_eq!(v.at_mut(5), None);
     *v.at_mut(2).unwrap() = 60;
     assert_eq!(v.at(2), Some(&60));
+}
+
+#[test]
+fn test_union_find() {
+    use union_find::UnionFind;
+    let mut uf = UnionFind::new(5);
+    uf.merge(0, 2);
+    uf.merge(2, 4);
+    uf.merge(3, 4);
+    assert!(uf.same_root(0, 2));
+    assert!(uf.same_root(3, 4));
+    assert!(uf.same_root(0, 4));
+    assert!(!uf.same_root(0, 1));
+    assert!(!uf.same_root(1, 4));
+    assert!(uf.same_root(1, 1));
 }

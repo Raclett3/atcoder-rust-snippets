@@ -14,7 +14,7 @@ impl UnionFind {
     }
 
     pub fn merge(&mut self, a: usize, b: usize) {
-        self.root[a] = self.root[b];
+        self.root[a] = self.root_of(b);
     }
 
     pub fn same_root(&mut self, a: usize, b: usize) -> bool {

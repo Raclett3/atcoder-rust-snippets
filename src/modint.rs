@@ -170,3 +170,21 @@ impl std::iter::Sum for ModInt {
         iter.fold(ModInt(0), |x, y| x + y)
     }
 }
+
+#[test]
+fn test_modint() {
+    assert_eq!(ModInt(MOD - 2), ModInt(MOD - 1) + ModInt(MOD - 1));
+    assert_eq!(ModInt(MOD - 1), ModInt(MOD - 2) - ModInt(MOD - 1));
+    assert_eq!(ModInt(9), ModInt(MOD - 3) * ModInt(MOD - 3));
+    assert_eq!(ModInt(898961331), ModInt(2).pow(50));
+    assert_eq!(ModInt(12345), ModInt(12345) / ModInt(67890) * ModInt(67890));
+    let mut fact = ModIntFact::new();
+    assert_eq!(ModInt(227020758), fact.fact(13));
+    assert_eq!(ModInt(1), fact.fact(127) * fact.fact_inv(127));
+    assert_eq!(ModInt(184756), fact.ncr(20, 10));
+    assert_eq!(ModInt(360360), fact.npr(15, 5));
+    assert_eq!(ModInt(2002), fact.nhr(10, 5));
+    assert_eq!(ModInt(12345), mint(12345));
+    assert_eq!(ModInt(123), mint(MOD * 2 + 123));
+    assert_eq!("12345", format!("{}", ModInt(12345)));
+}

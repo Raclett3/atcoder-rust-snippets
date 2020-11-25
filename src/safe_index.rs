@@ -75,3 +75,16 @@ impl<T> SafeIndexMut<T> for &mut [T] {
         }
     }
 }
+
+#[test]
+fn test_safe_index() {
+    let mut v = vec![10, 20, 30, 40, 50];
+    assert_eq!(v.at(0), Some(&10));
+    assert_eq!(v.at(-2), None);
+    assert_eq!(v.at(5), None);
+    assert_eq!(v.at(4), Some(&50));
+    assert_eq!(v.at_mut(-1), None);
+    assert_eq!(v.at_mut(5), None);
+    *v.at_mut(2).unwrap() = 60;
+    assert_eq!(v.at(2), Some(&60));
+}

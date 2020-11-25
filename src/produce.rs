@@ -43,3 +43,40 @@ impl<T: Copy, F: Fn(T) -> Option<T>> std::iter::Iterator for Produce<T, F> {
         }
     }
 }
+
+#[test]
+fn test_produce() {
+    let producer = produce(1, |acc| Some(acc * 2 % 11), true);
+    let actual: Vec<usize> = producer.take(10).collect();
+    assert_eq!(vec![1, 2, 4, 8, 5, 10, 9, 7, 3, 6], actual);
+
+    let producer = produce(
+        1,
+        |acc| {
+            let next = acc * 3;
+            if next <= 100 {
+                Some(next)
+            } else {
+                None
+            }
+        },
+        true,
+    );
+    let actual: Vec<usize> = producer.collect();
+    assert_eq!(vec![1, 3, 9, 27, 81], actual);
+
+    let producer = produce(
+        1,
+        |acc| {
+            let next = acc * 2;
+            if next <= 100 {
+                Some(next)
+            } else {
+                None
+            }
+        },
+        false,
+    );
+    let actual: Vec<usize> = producer.collect();
+    assert_eq!(vec![2, 4, 8, 16, 32, 64], actual);
+}

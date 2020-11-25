@@ -36,3 +36,17 @@ impl UnionFind {
         self.root[a]
     }
 }
+
+#[test]
+fn test_union_find() {
+    let mut uf = UnionFind::new(5);
+    uf.merge(0, 2);
+    uf.merge(2, 4);
+    uf.merge(3, 4);
+    assert!(uf.same_root(0, 2));
+    assert!(uf.same_root(3, 4));
+    assert!(uf.same_root(0, 4));
+    assert!(!uf.same_root(0, 1));
+    assert!(!uf.same_root(1, 4));
+    assert!(uf.same_root(1, 1));
+}

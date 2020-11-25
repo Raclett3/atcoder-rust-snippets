@@ -107,3 +107,39 @@ impl Graph {
         costs
     }
 }
+
+#[test]
+fn test_graph() {
+    let mut graph = Graph::new(8);
+    graph.edge_undirected_costed(0, 7, 2);
+    graph.edge_undirected_costed(1, 7, 4);
+    graph.edge_undirected_costed(0, 3, 9);
+    graph.edge_undirected_costed(1, 3, 3);
+    graph.edge_undirected_costed(0, 4, 13);
+    graph.edge_undirected_costed(3, 4, 3);
+    graph.edge_undirected_costed(3, 5, 5);
+    graph.edge_undirected_costed(1, 5, 6);
+    graph.edge_undirected_costed(2, 4, 8);
+    graph.edge_undirected_costed(2, 3, 11);
+    graph.edge_undirected_costed(2, 6, 4);
+    graph.edge_undirected_costed(3, 6, 6);
+    graph.edge_undirected_costed(5, 6, 5);
+    assert_eq!(vec![0, 6, 19, 9, 12, 12, 15, 2], graph.dijkstra(0));
+    let mut graph = Graph::new(6);
+    graph.edge_undirected_costed(0, 1, 5);
+    graph.edge_undirected_costed(0, 4, 15);
+    graph.edge_undirected_costed(1, 2, 1);
+    graph.edge_undirected_costed(2, 3, 2);
+    graph.edge_undirected_costed(2, 4, 9);
+    graph.edge_undirected_costed(3, 4, 6);
+    let inf = std::isize::MAX;
+    let expected = vec![
+        vec![0, 5, 6, 8, 14, inf],
+        vec![5, 0, 1, 3, 9, inf],
+        vec![6, 1, 0, 2, 8, inf],
+        vec![8, 3, 2, 0, 6, inf],
+        vec![14, 9, 8, 6, 0, inf],
+        vec![inf, inf, inf, inf, inf, 0],
+    ];
+    assert_eq!(expected, graph.warshall_floyd());
+}

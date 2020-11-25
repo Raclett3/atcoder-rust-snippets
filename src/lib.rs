@@ -8,6 +8,7 @@ mod graph;
 mod modint;
 mod produce;
 mod safe_index;
+mod subseqs;
 mod union_find;
 
 #[test]

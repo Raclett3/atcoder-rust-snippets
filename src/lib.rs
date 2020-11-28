@@ -1,6 +1,7 @@
 #![allow(dead_code)]
 #![allow(unused_macros)]
 
+mod bitree;
 mod bits;
 mod bound;
 mod geometric;

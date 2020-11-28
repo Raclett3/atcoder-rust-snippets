@@ -7,6 +7,7 @@ mod geometric;
 mod graph;
 mod modint;
 mod produce;
+mod rolling_hash;
 mod safe_index;
 mod subseqs;
 mod union_find;

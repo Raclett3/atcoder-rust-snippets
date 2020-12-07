@@ -7,6 +7,7 @@ mod bound;
 mod geometric;
 mod graph;
 mod modint;
+mod multiset;
 mod produce;
 mod rolling_hash;
 mod safe_index;

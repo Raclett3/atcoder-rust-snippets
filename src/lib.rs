@@ -12,5 +12,6 @@ mod multiset;
 mod produce;
 mod rolling_hash;
 mod safe_index;
+mod segtree;
 mod subseqs;
 mod union_find;

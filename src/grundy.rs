@@ -42,6 +42,12 @@ trait Game: Ord + Sized {
     fn next_states(&self) -> Vec<Self>;
 }
 
+#[snippet("grundy")]
+fn first_wins<T: Game + Clone>(init: T, terminal: T) -> bool {
+    let grundy = all_grundy(init.clone(), terminal);
+    *grundy.get(&init).unwrap() != 0
+}
+
 #[test]
 fn test_grundy() {
     impl Game for Vec<usize> {
@@ -68,4 +74,10 @@ fn test_grundy() {
             }
         }
     }
+    
+    assert!(first_wins(vec![10, 2, 5], vec![0, 0, 0]));
+    assert!(first_wins(vec![6, 6, 6], vec![0, 0, 0]));
+    assert!(first_wins(vec![5, 6, 7, 8], vec![0, 0, 0, 0]));
+    assert!(!first_wins(vec![7, 4, 3], vec![0, 0, 0]));
+    assert!(!first_wins(vec![7, 7, 7, 7], vec![0, 0, 0, 0]));
 }

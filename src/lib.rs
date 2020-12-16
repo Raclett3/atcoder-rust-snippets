@@ -6,6 +6,7 @@ mod bits;
 mod bound;
 mod geometric;
 mod graph;
+mod grundy;
 mod levenshtein;
 mod modint;
 mod multiset;

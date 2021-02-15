@@ -1,15 +1,15 @@
 use cargo_snippet::snippet;
 
 #[snippet("bit")]
-use std::ops::{Add, AddAssign, SubAssign};
+use std::ops::{Add, AddAssign, Sub, SubAssign};
 
 #[snippet("bit")]
-struct BIT<T: AddAssign + SubAssign + Copy> {
+struct BIT<T: AddAssign + SubAssign + Sub + Copy> {
     bit: Vec<T>,
 }
 
 #[snippet("bit")]
-impl<T: Add + AddAssign + SubAssign + Default + Copy> BIT<T> {
+impl<T: Add + AddAssign + Sub<Output = T> + SubAssign + Default + Copy> BIT<T> {
     fn new(length: usize) -> Self {
         BIT {
             bit: vec![T::default(); length],
@@ -40,6 +40,14 @@ impl<T: Add + AddAssign + SubAssign + Default + Copy> BIT<T> {
             idx = (idx & (idx + 1)) - 1;
         }
     }
+
+    fn sum_between(&mut self, left: usize, right: usize) -> T {
+        if left == 0 {
+            self.sum(right)
+        } else {
+            self.sum(right) - self.sum(left - 1)
+        }
+    }
 }
 
 #[test]
@@ -55,4 +63,7 @@ fn test_bit() {
     for (i, &val) in expected.iter().enumerate() {
         assert_eq!(bit.sum(i), val);
     }
+    assert_eq!(bit.sum_between(3, 5), 4);
+    assert_eq!(bit.sum_between(2, 9), 9);
+    assert_eq!(bit.sum_between(0, 8), 20);
 }

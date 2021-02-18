@@ -29,7 +29,7 @@ pub fn usize_bound<F: Fn(usize) -> bool>(min: usize, max: usize, f: F) -> usize 
 pub fn float_bound<F: Fn(f64) -> bool>(min: f64, max: f64, f: F) -> f64 {
     let mut ok = min;
     let mut ng = max;
-    for _ in 0..80 {
+    for _ in 0..100 {
         let mid = (ok + ng) / 2.0;
         if f(mid) {
             ok = mid;

@@ -7,3 +7,4 @@ edition = "2018"
 [dependencies]
 cargo-snippet = "0.4"
 approx = "0.4"
+lazy_static = "1.4"

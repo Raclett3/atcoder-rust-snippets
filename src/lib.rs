@@ -12,6 +12,7 @@ mod memoize;
 mod modint;
 mod multiset;
 mod produce;
+mod random;
 mod range_union;
 mod rolling_hash;
 mod safe_index;

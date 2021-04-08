@@ -14,9 +14,8 @@ fn mex(set: &BTreeSet<usize>) -> usize {
 }
 
 #[snippet("grundy")]
-fn all_grundy<T: Game>(init: T, terminal: T) -> BTreeMap<T, usize> {
+fn all_grundy<T: Game>(init: T) -> BTreeMap<T, usize> {
     let mut grundy_map = BTreeMap::new();
-    grundy_map.insert(terminal, 0);
     next_grundy(&mut grundy_map, init);
     grundy_map
 }
@@ -25,6 +24,11 @@ fn all_grundy<T: Game>(init: T, terminal: T) -> BTreeMap<T, usize> {
 fn next_grundy<T: Game>(grundy_map: &mut BTreeMap<T, usize>, current: T) -> usize {
     if let Some(&grundy) = grundy_map.get(&current) {
         return grundy;
+    }
+
+    if current.is_terminal() {
+        grundy_map.insert(current, 0);
+        return 0;
     }
 
     let mut grundy_set = BTreeSet::new();
@@ -40,11 +44,12 @@ fn next_grundy<T: Game>(grundy_map: &mut BTreeMap<T, usize>, current: T) -> usiz
 #[snippet("grundy")]
 trait Game: Ord + Sized {
     fn next_states(&self) -> Vec<Self>;
+    fn is_terminal(&self) -> bool;
 }
 
 #[snippet("grundy")]
-fn first_wins<T: Game + Clone>(init: T, terminal: T) -> bool {
-    let grundy = all_grundy(init.clone(), terminal);
+fn first_wins<T: Game + Clone>(init: T) -> bool {
+    let grundy = all_grundy(init.clone());
     *grundy.get(&init).unwrap() != 0
 }
 
@@ -63,9 +68,13 @@ fn test_grundy() {
                 })
                 .collect()
         }
+
+        fn is_terminal(&self) -> bool {
+            self.iter().all(|&x| x == 0)
+        }
     }
 
-    let grundy = all_grundy(vec![4, 5, 6], vec![0, 0, 0]);
+    let grundy = all_grundy(vec![4, 5, 6]);
     eprintln!("{:?}", grundy);
     for i in 0..=4 {
         for j in 0..=5 {
@@ -75,9 +84,9 @@ fn test_grundy() {
         }
     }
     
-    assert!(first_wins(vec![10, 2, 5], vec![0, 0, 0]));
-    assert!(first_wins(vec![6, 6, 6], vec![0, 0, 0]));
-    assert!(first_wins(vec![5, 6, 7, 8], vec![0, 0, 0, 0]));
-    assert!(!first_wins(vec![7, 4, 3], vec![0, 0, 0]));
-    assert!(!first_wins(vec![7, 7, 7, 7], vec![0, 0, 0, 0]));
+    assert!(first_wins(vec![10, 2, 5]));
+    assert!(first_wins(vec![6, 6, 6]));
+    assert!(first_wins(vec![5, 6, 7, 8]));
+    assert!(!first_wins(vec![7, 4, 3]));
+    assert!(!first_wins(vec![7, 7, 7, 7]));
 }

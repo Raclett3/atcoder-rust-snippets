@@ -1,4 +1,4 @@
-use super::Monoid;
+use super::{ceil_log2, Monoid};
 use cargo_snippet::snippet;
 
 #[snippet("segtree")]

@@ -1,17 +1,21 @@
+mod lazy_segtree;
 mod segtree;
 
 use cargo_snippet::snippet;
 
 #[snippet("segtree")]
+#[snippet("lazy_segtree")]
 use std::marker::PhantomData;
 
 #[snippet("segtree")]
+#[snippet("lazy_segtree")]
 trait Identity: Copy {
     const ZERO: Self;
     const ONE: Self;
 }
 
 #[snippet("segtree")]
+#[snippet("lazy_segtree")]
 macro_rules! impl_identity {
     ($($target_type:ty),+ $(,)?) => {
         $(
@@ -24,9 +28,11 @@ macro_rules! impl_identity {
 }
 
 #[snippet("segtree")]
+#[snippet("lazy_segtree")]
 impl_identity!(usize, u8, u16, u32, u64, u128, isize, i8, i16, i32, i64, i128);
 
 #[snippet("segtree")]
+#[snippet("lazy_segtree")]
 trait Monoid {
     type S: Clone;
     const ID: Self::S;
@@ -35,9 +41,11 @@ trait Monoid {
 }
 
 #[snippet("segtree")]
+#[snippet("lazy_segtree")]
 struct AddMonoid<T>(PhantomData<T>);
 
 #[snippet("segtree")]
+#[snippet("lazy_segtree")]
 impl<T: Identity + std::ops::Add<Output = T>> Monoid for AddMonoid<T> {
     type S = T;
     const ID: Self::S = T::ZERO;
@@ -45,4 +53,10 @@ impl<T: Identity + std::ops::Add<Output = T>> Monoid for AddMonoid<T> {
     fn product(lhs: T, rhs: T) -> T {
         lhs + rhs
     }
+}
+
+#[snippet("segtree")]
+#[snippet("lazy_segtree")]
+fn ceil_log2(value: usize) -> usize {
+    (usize::BITS - (value - 1).leading_zeros()) as usize
 }

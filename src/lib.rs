@@ -8,6 +8,7 @@ mod geometric;
 mod graph;
 mod grundy;
 mod levenshtein;
+mod maxflow;
 mod memoize;
 mod modint;
 mod multiset;

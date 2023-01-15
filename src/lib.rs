@@ -10,6 +10,7 @@ mod grundy;
 mod levenshtein;
 mod maxflow;
 mod memoize;
+mod mincostflow;
 mod modint;
 mod multiset;
 mod produce;
